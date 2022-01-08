@@ -997,4 +997,5 @@ def respond(message):
 
 
 # RUN
-bot.polling(none_stop=True)
+# bot.polling(none_stop=True)
+bot.infinity_polling(True)
