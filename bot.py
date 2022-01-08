@@ -4,7 +4,7 @@ import psycopg2
 import os
 from flask import Flask, request
 import logging
-from telebot import types
+# from telebot import telebot.types
 
 # Database init
 conn = psycopg2.connect(dbname='d39f0oqv4la9th', user='zmesqarmxotalw',
@@ -159,9 +159,9 @@ find_list = []
 
 @bot.message_handler(commands=['start', 'старт'])
 def start(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    client = types.KeyboardButton('Заказчик')
-    executor = types.KeyboardButton('Исполнитель')
+    markup = telebot.telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    client = telebot.types.KeyboardButton('Заказчик')
+    executor = telebot.types.KeyboardButton('Исполнитель')
 
     markup.add(client, executor)
 
@@ -196,10 +196,10 @@ def start_reply(message):
     anketa_zak = cursor.fetchall()
 
     global userType
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    create = types.KeyboardButton('Создать')
-    change = types.KeyboardButton('Изменить')
-    find = types.KeyboardButton('Поиск')
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    create = telebot.types.KeyboardButton('Создать')
+    change = telebot.types.KeyboardButton('Изменить')
+    find = telebot.types.KeyboardButton('Поиск')
 
     if (message.text == 'Заказчик'):
         userType = message.text
@@ -259,7 +259,7 @@ def start_reply(message):
         bot.send_message(
             message.chat.id,
             'Текущий диалог остановлен, если вам нужна дополнительная информация, напишите /help или /info',
-            reply_markup=types.ReplyKeyboardRemove()
+            reply_markup=telebot.types.ReplyKeyboardRemove()
         )
     else:
         message = bot.send_message(
@@ -282,9 +282,9 @@ def action_reply(message):
 # -------------- Изменение заявки/анкеты для заказчика и исполнителя -------------- 
 @bot.message_handler(commands=['change', 'изменение'])
 def change(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    yes = types.KeyboardButton('Да')
-    no = types.KeyboardButton('Нет')
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    yes = telebot.types.KeyboardButton('Да')
+    no = telebot.types.KeyboardButton('Нет')
     markup.add(yes, no)
 
     if (userType == 'Заказчик'):
@@ -330,15 +330,15 @@ def change(message):
 
 
 def change_reply(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    name = types.KeyboardButton('Имя')
-    number = types.KeyboardButton('Телефон')
-    city = types.KeyboardButton('Город')
-    problem = types.KeyboardButton('Проблему')
-    about = types.KeyboardButton('О себе')
-    type = types.KeyboardButton('Тип')
-    experience = types.KeyboardButton('Стаж')
-    activities = types.KeyboardButton('Тип услуги')
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    name = telebot.types.KeyboardButton('Имя')
+    number = telebot.types.KeyboardButton('Телефон')
+    city = telebot.types.KeyboardButton('Город')
+    problem = telebot.types.KeyboardButton('Проблему')
+    about = telebot.types.KeyboardButton('О себе')
+    type = telebot.types.KeyboardButton('Тип')
+    experience = telebot.types.KeyboardButton('Стаж')
+    activities = telebot.types.KeyboardButton('Тип услуги')
 
     if (message.text == 'Да'):
         if (userType == 'Заказчик'):
@@ -357,13 +357,13 @@ def change_reply(message):
         bot.send_message(
             message.chat.id,
             'В таком случае, воспользуйтесь командами /help или /info, для того чтобы найти нужную Вам функцию',
-            reply_markup=types.ReplyKeyboardRemove()
+            reply_markup=telebot.types.ReplyKeyboardRemove()
         )
     elif (message.text == '/stop'):
         bot.send_message(
             message.chat.id,
             'Текущий диалог остановлен, если вам нужна дополнительная информация, напишите /help или /info',
-            reply_markup=types.ReplyKeyboardRemove()
+            reply_markup=telebot.types.ReplyKeyboardRemove()
         )
     else:
         message = bot.send_message(
@@ -395,10 +395,10 @@ def change_acceptance(message):
         )
         bot.register_next_step_handler(message, change_text)
     elif (changeType == 'Тип'):
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-        tech = types.KeyboardButton("Техника")
-        comp = types.KeyboardButton("Компьютеры и IT")
-        mal = types.KeyboardButton("Строительство")
+        markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        tech = telebot.types.KeyboardButton("Техника")
+        comp = telebot.types.KeyboardButton("Компьютеры и IT")
+        mal = telebot.types.KeyboardButton("Строительство")
 
         markup.add(tech, comp, mal)
 
@@ -428,10 +428,10 @@ def change_acceptance(message):
         )
         bot.register_next_step_handler(message, change_text)
     elif (changeType == 'Тип услуги'):
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-        tech = types.KeyboardButton("Техника")
-        comp = types.KeyboardButton("Компьютеры и IT")
-        mal = types.KeyboardButton("Строительство")
+        markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        tech = telebot.types.KeyboardButton("Техника")
+        comp = telebot.types.KeyboardButton("Компьютеры и IT")
+        mal = telebot.types.KeyboardButton("Строительство")
 
         markup.add(tech, comp, mal)
 
@@ -451,7 +451,7 @@ def change_acceptance(message):
         bot.send_message(
             message.chat.id,
             'Текущий диалог остановлен, если вам нужна дополнительная информация, напишите /help или /info',
-            reply_markup=types.ReplyKeyboardRemove()
+            reply_markup=telebot.types.ReplyKeyboardRemove()
         )
     else:
         changeType = ''
@@ -614,10 +614,10 @@ def create_reply(message):
                 message = bot.send_message(message.chat.id, 'Напишите название города, в котором Вы оказываете услуги')
         elif input_len == 3:
             if userType == 'Заказчик':
-                markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                tech = types.KeyboardButton("Техника")
-                comp = types.KeyboardButton("Компьютеры и IT")
-                mal = types.KeyboardButton("Строительство")
+                markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+                tech = telebot.types.KeyboardButton("Техника")
+                comp = telebot.types.KeyboardButton("Компьютеры и IT")
+                mal = telebot.types.KeyboardButton("Строительство")
 
                 markup.add(tech, comp, mal)
 
@@ -629,10 +629,10 @@ def create_reply(message):
                 )
 
             else:
-                markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-                tech = types.KeyboardButton("Техника")
-                comp = types.KeyboardButton("Компьютеры и IT")
-                mal = types.KeyboardButton("Строительство")
+                markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+                tech = telebot.types.KeyboardButton("Техника")
+                comp = telebot.types.KeyboardButton("Компьютеры и IT")
+                mal = telebot.types.KeyboardButton("Строительство")
 
                 markup.add(tech, comp, mal)
 
@@ -688,10 +688,10 @@ def create_reply(message):
 
 @bot.message_handler(commands=['find', 'поиск'])
 def find(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    tech = types.KeyboardButton("Техника")
-    comp = types.KeyboardButton("Компьютеры и IT")
-    mal = types.KeyboardButton("Строительство")
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    tech = telebot.types.KeyboardButton("Техника")
+    comp = telebot.types.KeyboardButton("Компьютеры и IT")
+    mal = telebot.types.KeyboardButton("Строительство")
 
     markup.add(tech, comp, mal)  # Тут по идее в переменной просто должны будут быть
     # перечислены все возможные сферы можно в принципе не делать выгрузку из бд
@@ -749,9 +749,9 @@ def find_reply(message):
 
 def find_show(message):
     global input_len, input_len_max
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    yes = types.KeyboardButton('Да')
-    no = types.KeyboardButton('Нет')
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    yes = telebot.types.KeyboardButton('Да')
+    no = telebot.types.KeyboardButton('Нет')
     markup.add(yes, no)
 
     if input_len_max == 0 or message.text == 'Да':
@@ -762,7 +762,7 @@ def find_show(message):
                     message.chat.id,
                     'По этой сфере пока нет активных <b>Исполнителя</b>',
                     parse_mode='html',
-                    reply_markup=types.ReplyKeyboardRemove()
+                    reply_markup=telebot.types.ReplyKeyboardRemove()
                 )
                 input_len = 0
                 input_len_max = 0
@@ -776,7 +776,7 @@ def find_show(message):
                     bot.send_message(
                         message.chat.id,
                         'По этой сфере закончились активные <b>Исполнители</b>',
-                        reply_markup=types.ReplyKeyboardRemove(),
+                        reply_markup=telebot.types.ReplyKeyboardRemove(),
                         parse_mode='html'
                     )
                     input_len = 0
@@ -795,7 +795,7 @@ def find_show(message):
                     message.chat.id,
                     'По этой теме пока нет активных <b>Заказчиков</b>',
                     parse_mode='html',
-                    reply_markup=types.ReplyKeyboardRemove()
+                    reply_markup=telebot.types.ReplyKeyboardRemove()
                 )
                 input_len = 0
                 input_len_max = 0
@@ -810,7 +810,7 @@ def find_show(message):
                         message.chat.id,
                         'По этой теме закончились активные <b>Заказчики</b>',
                         parse_mode='html',
-                        reply_markup=types.ReplyKeyboardRemove()
+                        reply_markup=telebot.types.ReplyKeyboardRemove()
                     )
                     input_len = 0
                     input_len_max = 0
@@ -827,7 +827,7 @@ def find_show(message):
             message.chat.id,
             'Воспользуйтесь /info, чтобы найти нужную команду',
             parse_mode='html',
-            reply_markup=types.ReplyKeyboardRemove()
+            reply_markup=telebot.types.ReplyKeyboardRemove()
         )
         input_len = 0
         input_len_max = 0
@@ -890,9 +890,9 @@ def anketa(message):
 @bot.message_handler(commands=['clear', 'удалить', 'очистить', 'delete'])
 def clear(message):
     global user_I, user_Z
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    yes = types.KeyboardButton('Да')
-    no = types.KeyboardButton('Нет')
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    yes = telebot.types.KeyboardButton('Да')
+    no = telebot.types.KeyboardButton('Нет')
     markup.add(yes, no)
 
     if (
@@ -919,7 +919,7 @@ def clear(message):
         bot.send_message(
             message.chat.id,
             'Если вам нужна дополнительная информация, напишите /help или /info',
-            reply_markup=types.ReplyKeyboardRemove()
+            reply_markup=telebot.types.ReplyKeyboardRemove()
         )
     else:
         message = bot.send_message(
@@ -931,9 +931,9 @@ def clear(message):
 
 @bot.message_handler(commands=['changeType', 'изменитьТип'])
 def changeType_(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    client = types.KeyboardButton('Заказчик')
-    executor = types.KeyboardButton('Исполнитель')
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    client = telebot.types.KeyboardButton('Заказчик')
+    executor = telebot.types.KeyboardButton('Исполнитель')
     markup.add(client, executor)
 
     message = bot.send_message(
@@ -967,7 +967,7 @@ def changeType_reply(message):
         bot.send_message(
             message.chat.id,
             'Текущий диалог остановлен, если вам нужна дополнительная информация, напишите /help или /info',
-            reply_markup=types.ReplyKeyboardRemove()
+            reply_markup=telebot.types.ReplyKeyboardRemove()
         )
     else:
         message = bot.send_message(
@@ -992,7 +992,7 @@ def type(message):
         )
 
 
-@bot.message_handler(content_types=['text'])
+@bot.message_handler(content_telebot.types=['text'])
 def respond(message):
     if message.chat.type == 'private':
         if message.text == 'Заказчик':
