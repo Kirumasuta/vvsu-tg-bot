@@ -4,7 +4,7 @@ import psycopg2
 import os
 from flask import Flask, request
 import logging
-# from telebot import telebot.types
+# from telebot import types
 
 # Database init
 conn = psycopg2.connect(dbname='d39f0oqv4la9th', user='zmesqarmxotalw',
@@ -159,7 +159,7 @@ find_list = []
 
 @bot.message_handler(commands=['start', 'старт'])
 def start(message):
-    markup = telebot.telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     client = telebot.types.KeyboardButton('Заказчик')
     executor = telebot.types.KeyboardButton('Исполнитель')
 
@@ -269,7 +269,7 @@ def start_reply(message):
         bot.register_next_step_handler(message, start_reply)
 
 
-# ------ Перенаправление диалога в нужную команду, после ответа пользователя ------ 
+# ------ Перенаправление диалога в нужную команду, после ответа пользователя ------
 def action_reply(message):
     if (message.text == 'Изменить'):
         change(message)
@@ -279,7 +279,7 @@ def action_reply(message):
         find(message)
 
 
-# -------------- Изменение заявки/анкеты для заказчика и исполнителя -------------- 
+# -------------- Изменение заявки/анкеты для заказчика и исполнителя --------------
 @bot.message_handler(commands=['change', 'изменение'])
 def change(message):
     markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
@@ -992,7 +992,7 @@ def type(message):
         )
 
 
-@bot.message_handler(content_telebot.types=['text'])
+@bot.message_handler(content_types=['text'])
 def respond(message):
     if message.chat.type == 'private':
         if message.text == 'Заказчик':
