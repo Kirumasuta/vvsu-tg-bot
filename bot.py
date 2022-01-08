@@ -7,9 +7,9 @@ import logging
 # from telebot import types
 
 # Database init
-conn = psycopg2.connect(dbname='d39f0oqv4la9th', user='zmesqarmxotalw',
-                        password='f4eb23bc9794f8c5726a727a09729197b41744262306362e56db2e76622ad5d3',
-                        host='ec2-34-193-113-223.compute-1.amazonaws.com')
+conn = psycopg2.connect(dbname='d8aobkion9bscn', user='cogmnuuvcovgoa',
+                        password='b2b975c337b157fd6f5c3f5ec82d6d2aa59552095b485b6b2b7a2e0b3e94ec85',
+                        host='ec2-54-77-182-219.eu-west-1.compute.amazonaws.com')
 cursor = conn.cursor()
 
 bot = telebot.TeleBot('5039345388:AAHMh3LdN-SbxmiGi-qSUUu_VQAVmAbjQho')
