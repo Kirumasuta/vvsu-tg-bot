@@ -1,10 +1,5 @@
 import telebot
-import sqlite3
 import psycopg2
-import os
-from flask import Flask, request
-import logging
-# from telebot import types
 
 # Database init
 conn = psycopg2.connect(dbname='d8aobkion9bscn', user='cogmnuuvcovgoa',
