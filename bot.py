@@ -419,7 +419,7 @@ def change_acceptance(message):
     elif (changeType == 'Стаж'):
         message = bot.send_message(
             message.chat.id,
-            'Напишите новый телефон'
+            'Напишите свой стаж'
         )
         bot.register_next_step_handler(message, change_text)
     elif (changeType == 'Тип услуги'):
