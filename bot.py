@@ -1,10 +1,15 @@
 import telebot
 import sqlite3
 import psycopg2
+import os
+from flask import Flask, request
+import logging
 from telebot import types
 
 # Database init
-conn = psycopg2.connect(dbname='d39f0oqv4la9th', user='zmesqarmxotalw', password='f4eb23bc9794f8c5726a727a09729197b41744262306362e56db2e76622ad5d3', host='ec2-34-193-113-223.compute-1.amazonaws.com')
+conn = psycopg2.connect(dbname='d39f0oqv4la9th', user='zmesqarmxotalw',
+                        password='f4eb23bc9794f8c5726a727a09729197b41744262306362e56db2e76622ad5d3',
+                        host='ec2-34-193-113-223.compute-1.amazonaws.com')
 cursor = conn.cursor()
 
 bot = telebot.TeleBot('5039345388:AAHMh3LdN-SbxmiGi-qSUUu_VQAVmAbjQho')
@@ -643,7 +648,8 @@ def create_reply(message):
             else:
                 message = bot.send_message(message.chat.id, 'Укажите Ваш стаж')
         elif (input_len == 5):
-            message = bot.send_message(message.chat.id, 'Напишите небольшое предложение о себе, описывающее вашу деятельность')
+            message = bot.send_message(message.chat.id,
+                                       'Напишите небольшое предложение о себе, описывающее вашу деятельность')
 
         input_len += 1
         bot.register_next_step_handler(message, create_reply)
@@ -725,7 +731,9 @@ def find_reply(message):
         anketa_I = cursor.fetchall()
         for isp in anketa_I:
             if isp[4] == message.text:
-                find_list.append('Имя: {0[1]}\nТелефон: {0[2]}\nГород: {0[3]}\nЧем занимается: {0[4]}\nСтаж: {0[5]}\nО себе: {0[6]}'.format(isp))
+                find_list.append(
+                    'Имя: {0[1]}\nТелефон: {0[2]}\nГород: {0[3]}\nЧем занимается: {0[4]}\nСтаж: {0[5]}\nО себе: {0[6]}'.format(
+                        isp))
     else:
         cursor.execute("select id,name,number, city, act_type, problem "
                        "from public.users "
@@ -733,7 +741,8 @@ def find_reply(message):
         anketa_Z = cursor.fetchall()
         for isp in anketa_Z:
             if isp[4] == message.text:
-                find_list.append('Имя: {0[1]}\nТелефон: {0[2]}\nГород: {0[3]}\nТип проблемы: {0[4]}\nПроблема: {0[5]}'.format(isp))
+                find_list.append(
+                    'Имя: {0[1]}\nТелефон: {0[2]}\nГород: {0[3]}\nТип проблемы: {0[4]}\nПроблема: {0[5]}'.format(isp))
 
     find_show(message)
 
@@ -998,4 +1007,32 @@ def respond(message):
 
 # RUN
 # bot.polling(none_stop=True)
-bot.infinity_polling(True)
+# bot.infinity_polling(True)
+
+if "HEROKU" in list(os.environ.keys()):
+    logger = telebot.logger
+    telebot.logger.setLevel(logging.INFO)
+
+    server = Flask(__name__)
+
+
+    @server.route("/bot", methods=['POST'])
+    def getMessage():
+        bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+        return "!", 200
+
+
+    @server.route("/")
+    def webhook():
+        bot.remove_webhook()
+        bot.set_webhook(
+            url="https://vvsuproj-pghost.herokuapp.com/bot")  # этот url нужно заменить на url вашего Хероку приложения
+        return "?", 200
+
+
+    server.run(host="0.0.0.0", port=os.environ.get('PORT', 80))
+else:
+    # если переменной окружения HEROKU нету, значит это запуск с машины разработчика.
+    # Удаляем вебхук на всякий случай, и запускаем с обычным поллингом.
+    bot.remove_webhook()
+    bot.polling(none_stop=True)
